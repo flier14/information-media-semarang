@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semarang Coastal Zone Corridor — Media Informasi Proyek</title>
+<meta name="description" content="Media informasi edukasi masyarakat pesisir Semarang mengenai pengelolaan limbah dan krisis penurunan tanah, bagian dari Proyek GEF-SCIP Kota Semarang.">
+
+<style>
+/* ============================================================
+   0. DESIGN TOKENS
+   Palet diambil dari sampul laporan proyek: navy gelap sebagai
+   dasar, tembaga/burnt-orange sebagai aksen motif akar mangrove,
+   hijau rawa sebagai aksen sekunder yang sangat dibatasi.
+   ============================================================ */
+:root{
+  --navy-deep:   #0F1728;
+  --navy:        #18233D;
+  --navy-mid:    #243654;
+  --navy-soft:   #32456b;
+  --copper:      #B86A3A;
+  --copper-light:#C97A45;
+  --copper-glow: #E0954F;
+  --mangrove:    #4C7A6A;
+  --ink:         #EDEFF3;
+  --ink-dim:     #B8C1D1;
+  --line:        rgba(237,239,243,0.14);
+  --glass:       rgba(36,54,84,0.45);
+  --glass-brd:   rgba(237,239,243,0.16);
+
+  --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
+  --font-body:    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --radius: 20px;
+  --ease: cubic-bezier(.22,.68,.35,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+}
+
+body{
+  margin:0;
+  background:var(--navy-deep);
+  color:var(--ink);
+  font-family:var(--font-body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+button{ font-family:inherit; }
+
+::selection{ background:var(--copper); color:var(--navy-deep); }
+
+:focus-visible{
+  outline:2px solid var(--copper-glow);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+.container{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 32px;
+}
+
+.eyebrow{
+  font-family:var(--font-body);
+  font-size:0.72rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--copper-light);
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before{
+  content:"";
+  width:26px;
+  height:1px;
+  background:var(--copper-light);
+  display:inline-block;
+}
+
+/* ============================================================
+   SVG WATERMARK MOTIF — pola garis "akar mangrove/batik pesisir"
+   digunakan berulang sebagai elemen tanda tangan visual (signature)
+   yang konsisten di beberapa bagian halaman.
+   ============================================================ */
+.motif-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.motif-layer svg{
+  position:absolute;
+  opacity:0.07;
+}
+
+/* organic wave divider */
+.wave-divider{
+  display:block;
+  width:100%;
+  line-height:0;
+}
+.wave-divider svg{ width:100%; height:auto; display:block; }
+
+/* ============================================================
+   1. HERO SECTION
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero__bg{
+  position:absolute;
+  inset:-6% -6% -6% -6%;
+  background-image:url('background.jpg');
+  background-size:cover;
+  background-position:center;
+  will-change:transform;
+  z-index:-2;
+}
+.hero__overlay{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(180deg, rgba(15,23,40,0.55) 0%, rgba(15,23,40,0.35) 30%, rgba(15,23,40,0.78) 78%, var(--navy-deep) 100%),
+    linear-gradient(90deg, rgba(15,23,40,0.7) 0%, rgba(15,23,40,0.15) 55%, rgba(15,23,40,0.5) 100%);
+}
+.hero__content{
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  padding:0 32px;
+  margin:0 auto;
+  width:100%;
+}
+.hero__eyebrow{
+  opacity:0;
+  animation: rise 0.9s var(--ease) 0.15s forwards;
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(2.4rem, 6vw, 4.4rem);
+  line-height:1.06;
+  letter-spacing:-0.01em;
+  margin:0.5em 0 0.35em;
+  color:#FBF8F3;
+  opacity:0;
+  animation: rise 0.9s var(--ease) 0.32s forwards;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--copper-light);
+  border-bottom:2px solid var(--copper);
+  padding-bottom:0.04em;
+}
+.hero p{
+  font-size:clamp(1rem, 1.6vw, 1.2rem);
+  color:var(--ink-dim);
+  max-width:56ch;
+  margin:0 0 2.1em;
+  opacity:0;
+  animation: rise 0.9s var(--ease) 0.5s forwards;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--copper);
+  background:linear-gradient(180deg, var(--copper-light), var(--copper));
+  color:#fff;
+  font-weight:600;
+  font-size:0.95rem;
+  padding:15px 28px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s var(--ease);
+  box-shadow:0 8px 24px -8px rgba(184,106,58,0.55);
+  text-decoration:none;
+}
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 32px -10px rgba(184,106,58,0.7);
+}
+.btn:active{ transform:translateY(-1px); }
+.btn--ghost{
+  background:transparent;
+  border:1px solid var(--glass-brd);
+  color:var(--ink);
+  box-shadow:none;
+}
+.btn--ghost:hover{
+  border-color:var(--copper-light);
+  background:rgba(184,106,58,0.12);
+  box-shadow:none;
+}
+.btn--sm{ padding:10px 18px; font-size:0.82rem; }
+.btn--icon{ padding:10px; border-radius:12px; }
+
+.hero__cta{
+  opacity:0;
+  animation: rise 0.9s var(--ease) 0.68s forwards;
+}
+
+.hero__scroll{
+  position:absolute;
+  bottom:36px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  color:var(--ink-dim);
+  font-size:0.68rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  opacity:0;
+  animation: rise 0.9s var(--ease) 0.9s forwards;
+}
+.hero__scroll .line{
+  width:1px;
+  height:34px;
+  background:linear-gradient(var(--copper-light), transparent);
+  animation: pulse-line 2.2s ease-in-out infinite;
+}
+
+@keyframes rise{
+  from{ opacity:0; transform:translateY(22px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+@keyframes pulse-line{
+  0%,100%{ transform:scaleY(0.6); opacity:0.5; }
+  50%{ transform:scaleY(1); opacity:1; }
+}
+
+/* ============================================================
+   2. SECTION — TENTANG
+   ============================================================ */
+.section{
+  position:relative;
+  padding:120px 0;
+}
+.section--tentang{
+  background:var(--navy-deep);
+}
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.glass-card{
+  position:relative;
+  z-index:1;
+  background:var(--glass);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border:1px solid var(--glass-brd);
+  border-radius:var(--radius);
+  padding:56px;
+  max-width:820px;
+  margin:36px auto 0;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,0.6);
+}
+.glass-card h2{
+  font-family:var(--font-display);
+  font-size:clamp(1.6rem, 3vw, 2.2rem);
+  margin:0.2em 0 0.6em;
+  color:#FBF8F3;
+}
+.glass-card p{
+  color:var(--ink-dim);
+  font-size:1.02rem;
+  margin:0 0 1em;
+}
+.glass-card p:last-child{ margin-bottom:0; }
+.tentang-header{
+  text-align:center;
+}
+
+.stat-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  margin-top:40px;
+  padding-top:36px;
+  border-top:1px solid var(--line);
+}
+.stat-row .stat{ text-align:center; }
+.stat-row .stat strong{
+  display:block;
+  font-family:var(--font-display);
+  font-size:1.7rem;
+  color:var(--copper-light);
+}
+.stat-row .stat span{
+  font-size:0.78rem;
+  color:var(--ink-dim);
+  letter-spacing:0.03em;
+}
+
+/* ============================================================
+   3. SECTION — POSTER EDUKASI
+   ============================================================ */
+.section--poster{
+  background:var(--navy);
+}
+.section-head{
+  text-align:center;
+  max-width:640px;
+  margin:0 auto 64px;
+}
+.section-head h2{
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+  margin:0.35em 0 0.4em;
+  color:#FBF8F3;
+}
+.section-head p{ color:var(--ink-dim); font-size:1.02rem; }
+
+.poster-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:36px;
+}
+@media (max-width:880px){
+  .poster-grid{ grid-template-columns:1fr; }
+}
+
+.poster-card{
+  position:relative;
+  background:linear-gradient(165deg, var(--navy-mid), var(--navy));
+  border:1px solid var(--glass-brd);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 30px 60px -32px rgba(0,0,0,0.65);
+  transition:transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.poster-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 40px 74px -30px rgba(0,0,0,0.7);
+}
+.poster-card__frame{
+  position:relative;
+  background:var(--navy-deep);
+  padding:22px;
+  cursor:zoom-in;
+}
+.poster-card__frame img{
+  width:100%;
+  height:420px;
+  object-fit:contain;
+  border-radius:8px;
+  transition:transform 0.6s var(--ease);
+}
+.poster-card:hover .poster-card__frame img{ transform:scale(1.015); }
+
+.poster-card__frame::after{
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:1px solid var(--glass-brd);
+  border-radius:8px;
+  pointer-events:none;
+}
+
+.poster-card__body{
+  padding:28px 30px 30px;
+}
+.poster-card__tag{
+  font-size:0.7rem;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--mangrove);
+  font-weight:700;
+}
+.poster-card__title{
+  font-family:var(--font-display);
+  font-size:1.4rem;
+  margin:0.4em 0 0.5em;
+  color:#FBF8F3;
+}
+.poster-card__desc{
+  color:var(--ink-dim);
+  font-size:0.95rem;
+  margin:0 0 22px;
+}
+.poster-card__actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* ============================================================
+   4. IMAGE VIEWER MODAL
+   ============================================================ */
+.viewer{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(8,12,22,0.94);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity 0.35s var(--ease), visibility 0.35s;
+}
+.viewer.is-open{ opacity:1; visibility:visible; }
+
+.viewer__stage{
+  position:relative;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  touch-action:none;
+}
+.viewer__img{
+  max-width:88vw;
+  max-height:82vh;
+  user-select:none;
+  -webkit-user-drag:none;
+  border-radius:6px;
+  box-shadow:0 40px 90px -20px rgba(0,0,0,0.7);
+  cursor:grab;
+  transition:transform 0.12s linear;
+  will-change:transform;
+}
+.viewer__img.is-dragging{ cursor:grabbing; transition:none; }
+
+.viewer__bar{
+  position:absolute;
+  top:24px;
+  left:0; right:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  z-index:2;
+}
+.viewer__title{
+  font-family:var(--font-display);
+  font-size:1rem;
+  color:var(--ink);
+  background:rgba(15,23,40,0.5);
+  padding:8px 16px;
+  border-radius:999px;
+  border:1px solid var(--glass-brd);
+}
+.viewer__controls{
+  display:flex;
+  gap:10px;
+}
+.icon-btn{
+  width:42px; height:42px;
+  border-radius:50%;
+  border:1px solid var(--glass-brd);
+  background:rgba(15,23,40,0.55);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:background 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.icon-btn:hover{
+  background:rgba(184,106,58,0.35);
+  border-color:var(--copper-light);
+  transform:translateY(-2px);
+}
+.icon-btn svg{ width:18px; height:18px; stroke:currentColor; fill:none; }
+
+.viewer__nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:2;
+}
+.viewer__nav--prev{ left:22px; }
+.viewer__nav--next{ right:22px; }
+.viewer__nav .icon-btn{ width:52px; height:52px; }
+
+.viewer__footer{
+  position:absolute;
+  bottom:22px;
+  left:0; right:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  z-index:2;
+  color:var(--ink-dim);
+  font-size:0.78rem;
+  letter-spacing:0.05em;
+}
+.viewer__counter{
+  background:rgba(15,23,40,0.5);
+  padding:7px 14px;
+  border-radius:999px;
+  border:1px solid var(--glass-brd);
+}
+
+/* ============================================================
+   5. FOOTER
+   ============================================================ */
+.footer{
+  position:relative;
+  background:var(--navy-deep);
+  border-top:1px solid var(--line);
+  padding:70px 0 30px;
+  overflow:hidden;
+}
+.footer__grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:40px;
+  position:relative;
+  z-index:1;
+}
+@media (max-width:760px){
+  .footer__grid{ grid-template-columns:1fr; gap:32px; }
+  .stat-row{ grid-template-columns:1fr; gap:20px; }
+}
+.footer h3{
+  font-family:var(--font-display);
+  font-size:1.15rem;
+  margin:0 0 14px;
+  color:#FBF8F3;
+}
+.footer p, .footer li{
+  color:var(--ink-dim);
+  font-size:0.9rem;
+}
+.footer ul{ list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.footer__bottom{
+  margin-top:56px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  font-size:0.78rem;
+  color:var(--ink-dim);
+  position:relative;
+  z-index:1;
+}
+.footer__badge{
+  color:var(--copper-light);
+  letter-spacing:0.06em;
+}
+
+/* skip link */
+.skip-link{
+  position:absolute;
+  left:-999px;
+  top:auto;
+  background:var(--copper);
+  color:#fff;
+  padding:12px 20px;
+  border-radius:8px;
+  z-index:2000;
+}
+.skip-link:focus{
+  left:20px;
+  top:20px;
+}
+
+/* small screens tuning */
+@media (max-width:520px){
+  .container{ padding:0 20px; }
+  .glass-card{ padding:34px 26px; }
+  .poster-card__frame img{ height:300px; }
+  .viewer__nav .icon-btn{ width:44px; height:44px; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#poster">Langsung ke poster edukasi</a>
+
+<!-- ============================================================
+     1. HERO SECTION
+     ============================================================ -->
+<header class="hero" id="hero">
+  <div class="hero__bg" id="heroBg" aria-hidden="true"></div>
+  <div class="hero__overlay" aria-hidden="true"></div>
+
+  <div class="hero__content">
+    <p class="eyebrow hero__eyebrow">GEF-SCIP · Kota Semarang</p>
+    <h1>Menjaga <em>Pesisir Semarang</em> untuk Generasi Mendatang</h1>
+    <p>Media informasi Semarang Coastal Zone Corridor — mengajak masyarakat pesisir Kecamatan Tugu memahami bagaimana menjaga lingkungan untuk kawasan pesisir dengan kondisi saat ini krisis penurunan tanah (land subsidence) dan pencemaran lingkungan yang terjadi. Dengan langkah nyata yang dilakukan bersama seluruh pihak, dengan mengurangi pengambilan air tanah yang berlebihan dan pengelolaan limbah domestik sehingga mendapatkan manfaat untuk masyarakat dan lingkungan.</p>
+    <div class="hero__cta">
+      <a href="#poster" class="btn" id="ctaScroll">
+        Mulai Membaca
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span>Gulir</span>
+    <span class="line"></span>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================================================
+       2. TENTANG
+       ============================================================ -->
+  <section class="section section--tentang" id="tentang">
+    <div class="motif-layer" aria-hidden="true">
+      <svg width="640" height="640" viewBox="0 0 200 200" style="right:-8%; top:-6%;">
+        <g stroke="#C97A45" stroke-width="0.6" fill="none">
+          <path d="M100 10 C 70 40, 90 70, 60 90 C 40 105, 50 130, 30 150"/>
+          <path d="M100 10 C 130 40, 110 70, 140 90 C 160 105, 150 130, 170 150"/>
+          <path d="M60 90 C 45 95, 35 88, 20 95"/>
+          <path d="M140 90 C 155 95, 165 88, 180 95"/>
+          <path d="M30 150 C 20 160, 10 158, 2 168"/>
+          <path d="M170 150 C 180 160, 190 158, 198 168"/>
+          <circle cx="100" cy="10" r="2.6"/>
+          <circle cx="60" cy="90" r="2.2"/>
+          <circle cx="140" cy="90" r="2.2"/>
+          <circle cx="30" cy="150" r="2"/>
+          <circle cx="170" cy="150" r="2"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="container">
+      <div class="tentang-header reveal">
+        <p class="eyebrow" style="justify-content:center;">Tentang Media Ini</p>
+      </div>
+
+      <div class="glass-card reveal">
+        <h2>Edukasi Pesisir, Disampaikan dari Cerita Sehari-hari</h2>
+        <p>Microsite ini menghimpun dua poster edukasi bergaya komik yang dikembangkan untuk mendukung penyusunan Feasibility Study dan Environmental &amp; Social Impact Assessment pada koridor pesisir Kota Semarang, khususnya Kecamatan Tugu.</p>
+        <p>Melalui percakapan sehari-hari antarwarga, poster-poster ini menjelaskan bagaimana limbah rumah tangga memengaruhi sungai dan laut, mengapa tanah pesisir terus menurun, serta solusi kolaboratif yang sedang dan akan dijalankan — mulai dari IPAL Komunal, constructed wetland, air daur ulang, hingga restorasi mangrove.</p>
+        <p>Tujuannya sederhana: membantu masyarakat pesisir memahami akar masalah dan merasa menjadi bagian dari solusi jangka panjang bagi Semarang.</p>
+
+        <div class="stat-row">
+          <div class="stat">
+            <strong>2</strong>
+            <span>Poster Edukasi Utama</span>
+          </div>
+          <div class="stat">
+            <strong>ESS1–7</strong>
+            <span>Kerangka Standar World Bank</span>
+          </div>
+          <div class="stat">
+            <strong>Kec. Tugu</strong>
+            <span>Wilayah Fokus Studi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+      <path d="M0,40 C 240,90 480,0 720,30 C 960,60 1200,10 1440,45 L1440,90 L0,90 Z" fill="#18233D"/>
+    </svg>
+  </div>
+
+  <!-- ============================================================
+       3. POSTER EDUKASI
+       ============================================================ -->
+  <section class="section section--poster" id="poster">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow" style="justify-content:center;">Poster Edukasi</p>
+        <h2>Dua Cerita, Satu Tujuan: Pesisir yang Lestari</h2>
+        <p>Klik poster untuk membaca dalam mode layar penuh, lengkap dengan navigasi zoom dan geser antar halaman.</p>
+      </div>
+
+      <div class="poster-grid">
+
+        <!-- Poster 1 -->
+        <article class="poster-card reveal">
+          <div class="poster-card__frame" data-open-viewer data-index="0" role="button" tabindex="0" aria-label="Perbesar poster: Jangan Biarkan Semarang Tenggelam">
+            <img src="poster1.jpg" alt="Poster edukasi komik: Jangan Biarkan Semarang Tenggelam — krisis penurunan tanah pesisir Semarang, penyebab pengambilan air tanah berlebihan, hilangnya mangrove, dan solusi kolaboratif warga." loading="lazy" width="1600" height="2000">
+          </div>
+          <div class="poster-card__body">
+            <p class="poster-card__tag">Krisis Penurunan Tanah</p>
+            <h3 class="poster-card__title">Jangan Biarkan Semarang Tenggelam</h3>
+            <p class="poster-card__desc">Menjelaskan hubungan antara pengambilan air tanah berlebihan, hilangnya mangrove, dan meningkatnya banjir rob — serta langkah restorasi ekosistem pesisir yang perlu dilakukan bersama.</p>
+            <div class="poster-card__actions">
+              <button class="btn btn--sm" data-open-viewer data-index="0">Perbesar</button>
+              <a class="btn btn--ghost btn--sm" href="poster1.jpg" download>Download</a>
+              <button class="btn btn--ghost btn--sm btn--icon" data-open-viewer data-index="0" data-fullscreen aria-label="Buka mode layar penuh">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m11-5v3a2 2 0 0 1-2 2h-3"/></svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Poster 2 -->
+        <article class="poster-card reveal">
+          <div class="poster-card__frame" data-open-viewer data-index="1" role="button" tabindex="0" aria-label="Perbesar poster: Kelola Limbah Hari Ini, Selamatkan Lingkungan Pesisir Semarang">
+            <img src="poster2.jpg" alt="Poster edukasi komik: Kelola Limbah Hari Ini, Selamatkan Lingkungan Pesisir Semarang — dampak limbah rumah tangga, IPAL Komunal, constructed wetland, air daur ulang, dan ruang hijau bagi warga." loading="lazy" width="1600" height="1200">
+          </div>
+          <div class="poster-card__body">
+            <p class="poster-card__tag">Pengelolaan Limbah Domestik</p>
+            <h3 class="poster-card__title">Kelola Limbah Hari Ini, Selamatkan Pesisir</h3>
+            <p class="poster-card__desc">Menjelaskan pengelolaan air limbah dari rumah tangga menuju IPAL Komunal, serta dengan pendekatan berbasis alami dengan menggunakan constructed wetland, hingga menfhasolkan air daur ulang dan ruang hijau yang bermanfaat bagi seluruh warga serta menjaga lingkungan pesisir untuk masa depan.</p>
+            <div class="poster-card__actions">
+              <button class="btn btn--sm" data-open-viewer data-index="1">Perbesar</button>
+              <a class="btn btn--ghost btn--sm" href="poster2.jpg" download>Download</a>
+              <button class="btn btn--ghost btn--sm btn--icon" data-open-viewer data-index="1" data-fullscreen aria-label="Buka mode layar penuh">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m11-5v3a2 2 0 0 1-2 2h-3"/></svg>
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     4. IMAGE VIEWER MODAL
+     ============================================================ -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Penampil poster layar penuh">
+  <div class="viewer__bar">
+    <span class="viewer__title" id="viewerTitle">Judul Poster</span>
+    <div class="viewer__controls">
+      <button class="icon-btn" id="btnZoomOut" aria-label="Perkecil">
+        <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6"/></svg>
+      </button>
+      <button class="icon-btn" id="btnZoomIn" aria-label="Perbesar">
+        <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>
+      </button>
+      <button class="icon-btn" id="btnDownload" aria-label="Download poster">
+        <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+      </button>
+      <button class="icon-btn" id="btnClose" aria-label="Tutup (Esc)">
+        <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="viewer__stage" id="viewerStage">
+    <img src="" alt="" class="viewer__img" id="viewerImg" draggable="false">
+  </div>
+
+  <div class="viewer__nav viewer__nav--prev">
+    <button class="icon-btn" id="btnPrev" aria-label="Poster sebelumnya">
+      <svg viewBox="0 0 24 24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+  </div>
+  <div class="viewer__nav viewer__nav--next">
+    <button class="icon-btn" id="btnNext" aria-label="Poster berikutnya">
+      <svg viewBox="0 0 24 24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="viewer__footer">
+    <span class="viewer__counter" id="viewerCounter">1 / 2</span>
+    <span>Scroll untuk zoom · Seret untuk geser · Esc untuk tutup</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     5. FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="motif-layer" aria-hidden="true">
+    <svg width="520" height="520" viewBox="0 0 200 200" style="left:-10%; bottom:-14%;">
+      <g stroke="#B86A3A" stroke-width="0.6" fill="none">
+        <path d="M100 190 C 70 160, 90 130, 60 110 C 40 95, 50 70, 30 50"/>
+        <path d="M100 190 C 130 160, 110 130, 140 110 C 160 95, 150 70, 170 50"/>
+        <circle cx="100" cy="190" r="2.4"/>
+        <circle cx="60" cy="110" r="2"/>
+        <circle cx="140" cy="110" r="2"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="container footer__grid">
+    <div>
+      <h3>Semarang Coastal Zone Corridor</h3>
+      <p>Penyusunan Dokumen Infrastructure Governance, Feasibility Study, dan Environmental &amp; Social Impact Assessment untuk koridor pesisir Kota Semarang, di bawah program GEF-SCIP.</p>
+    </div>
+    <div>
+      <h3>Mitra Proyek</h3>
+      <ul>
+        <li>Pemerintah Kota Semarang</li>
+        <li>Bappenas RI</li>
+        <li>World Bank Group</li>
+        <li>GEF Indonesia SCIP</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Masukan &amp; Saran</h3>
+      <ul>
+        <li>Sampaikan pesan elektronik melalui tautan resmi masukan masyarakat.</li>
+        <li><a href="https://s.id/saran-masyarakat-semarang" target="_blank" rel="noopener">s.id/saran-masyarakat-semarang</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <span>© <span id="year"></span> Semarang Coastal Zone Corridor · GEF-SCIP Kota Semarang</span>
+    <span class="footer__badge">Untuk Generasi Mendatang</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Tahun otomatis di footer ---------- */
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------- Parallax ringan pada hero ---------- */
+  var heroBg = document.getElementById('heroBg');
+  var hero = document.getElementById('hero');
+  var ticking = false;
+  function updateParallax(){
+    var rect = hero.getBoundingClientRect();
+    var progress = Math.min(Math.max(-rect.top / rect.height, 0), 1);
+    heroBg.style.transform = 'translateY(' + (progress * 60) + 'px) scale(1.06)';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive:true });
+  updateParallax();
+
+  /* ---------- Reveal-on-scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.15, rootMargin:'0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------- Data poster ---------- */
+  var posters = [
+    {
+      src:'poster1.jpg',
+      title:'Jangan Biarkan Semarang Tenggelam',
+      alt:'Poster edukasi komik: Jangan Biarkan Semarang Tenggelam — krisis penurunan tanah pesisir Semarang.'
+    },
+    {
+      src:'poster2.jpg',
+      title:'Kelola Limbah Hari Ini, Selamatkan Pesisir',
+      alt:'Poster edukasi komik: Kelola Limbah Hari Ini, Selamatkan Lingkungan Pesisir Semarang.'
+    }
+  ];
+
+  /* ---------- Image Viewer (modal) ---------- */
+  var viewer = document.getElementById('viewer');
+  var viewerImg = document.getElementById('viewerImg');
+  var viewerTitle = document.getElementById('viewerTitle');
+  var viewerCounter = document.getElementById('viewerCounter');
+  var viewerStage = document.getElementById('viewerStage');
+  var btnClose = document.getElementById('btnClose');
+  var btnPrev = document.getElementById('btnPrev');
+  var btnNext = document.getElementById('btnNext');
+  var btnZoomIn = document.getElementById('btnZoomIn');
+  var btnZoomOut = document.getElementById('btnZoomOut');
+  var btnDownload = document.getElementById('btnDownload');
+
+  var currentIndex = 0;
+  var scale = 1, minScale = 1, maxScale = 4;
+  var posX = 0, posY = 0;
+  var isDragging = false, dragStartX = 0, dragStartY = 0, dragOriginX = 0, dragOriginY = 0;
+  var lastFocusedEl = null;
+
+  function renderTransform(){
+    viewerImg.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale + ')';
+  }
+
+  function resetTransform(){
+    scale = 1; posX = 0; posY = 0;
+    renderTransform();
+  }
+
+  function loadPoster(index){
+    currentIndex = (index + posters.length) % posters.length;
+    var p = posters[currentIndex];
+    viewerImg.src = p.src;
+    viewerImg.alt = p.alt;
+    viewerTitle.textContent = p.title;
+    viewerCounter.textContent = (currentIndex + 1) + ' / ' + posters.length;
+    btnDownload.onclick = function(){
+      var a = document.createElement('a');
+      a.href = p.src;
+      a.download = p.src;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+    resetTransform();
+  }
+
+  function openViewer(index){
+    lastFocusedEl = document.activeElement;
+    loadPoster(index);
+    viewer.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    btnClose.focus();
+  }
+
+  function closeViewer(){
+    viewer.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if(lastFocusedEl){ lastFocusedEl.focus(); }
+  }
+
+  document.querySelectorAll('[data-open-viewer]').forEach(function(el){
+    el.addEventListener('click', function(){
+      openViewer(parseInt(el.getAttribute('data-index'), 10));
+    });
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openViewer(parseInt(el.getAttribute('data-index'), 10));
+      }
+    });
+  });
+
+  btnClose.addEventListener('click', closeViewer);
+  btnPrev.addEventListener('click', function(){ loadPoster(currentIndex - 1); });
+  btnNext.addEventListener('click', function(){ loadPoster(currentIndex + 1); });
+
+  /* klik di luar gambar (di area stage) menutup modal */
+  viewerStage.addEventListener('click', function(e){
+    if(e.target === viewerStage){ closeViewer(); }
+  });
+
+  /* navigasi keyboard */
+  document.addEventListener('keydown', function(e){
+    if(!viewer.classList.contains('is-open')) return;
+    if(e.key === 'Escape'){ closeViewer(); }
+    else if(e.key === 'ArrowLeft'){ loadPoster(currentIndex - 1); }
+    else if(e.key === 'ArrowRight'){ loadPoster(currentIndex + 1); }
+    else if(e.key === '+' || e.key === '='){ zoomBy(0.3); }
+    else if(e.key === '-'){ zoomBy(-0.3); }
+  });
+
+  function zoomBy(delta){
+    scale = Math.min(maxScale, Math.max(minScale, scale + delta));
+    if(scale === minScale){ posX = 0; posY = 0; }
+    renderTransform();
+  }
+
+  btnZoomIn.addEventListener('click', function(){ zoomBy(0.4); });
+  btnZoomOut.addEventListener('click', function(){ zoomBy(-0.4); });
+
+  /* zoom dengan scroll wheel */
+  viewerStage.addEventListener('wheel', function(e){
+    if(!viewer.classList.contains('is-open')) return;
+    e.preventDefault();
+    zoomBy(e.deltaY < 0 ? 0.25 : -0.25);
+  }, { passive:false });
+
+  /* double click untuk reset zoom */
+  viewerImg.addEventListener('dblclick', function(){
+    resetTransform();
+  });
+
+  /* pan / drag ketika di-zoom (mouse) */
+  viewerImg.addEventListener('mousedown', function(e){
+    if(scale <= minScale) return;
+    isDragging = true;
+    viewerImg.classList.add('is-dragging');
+    dragStartX = e.clientX; dragStartY = e.clientY;
+    dragOriginX = posX; dragOriginY = posY;
+  });
+  window.addEventListener('mousemove', function(e){
+    if(!isDragging) return;
+    posX = dragOriginX + (e.clientX - dragStartX);
+    posY = dragOriginY + (e.clientY - dragStartY);
+    renderTransform();
+  });
+  window.addEventListener('mouseup', function(){
+    isDragging = false;
+    viewerImg.classList.remove('is-dragging');
+  });
+
+  /* pan / drag (touch) */
+  viewerImg.addEventListener('touchstart', function(e){
+    if(scale <= minScale || e.touches.length !== 1) return;
+    isDragging = true;
+    dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+    dragOriginX = posX; dragOriginY = posY;
+  }, { passive:true });
+  viewerImg.addEventListener('touchmove', function(e){
+    if(!isDragging || e.touches.length !== 1) return;
+    posX = dragOriginX + (e.touches[0].clientX - dragStartX);
+    posY = dragOriginY + (e.touches[0].clientY - dragStartY);
+    renderTransform();
+  }, { passive:true });
+  viewerImg.addEventListener('touchend', function(){ isDragging = false; });
+
+})();
+</script>
+
+</body>
+</html>
