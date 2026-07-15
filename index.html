@@ -784,7 +784,7 @@ button{ font-family:inherit; }
 
   <div class="viewer__footer">
     <span class="viewer__counter" id="viewerCounter">1 / 2</span>
-    <span>Scroll untuk zoom · Seret untuk geser · Esc untuk tutup</span>
+    <span>Scroll untuk zoom · Swipe untuk ganti poster · Esc untuk tutup</span>
   </div>
 </div>
 
@@ -1000,39 +1000,89 @@ button{ font-family:inherit; }
     resetTransform();
   });
 
-  /* pan / drag ketika di-zoom (mouse) */
+  /* pan (saat zoom) & swipe ganti poster (saat tidak zoom) — mouse */
   viewerImg.addEventListener('mousedown', function(e){
-    if(scale <= minScale) return;
-    isDragging = true;
-    viewerImg.classList.add('is-dragging');
-    dragStartX = e.clientX; dragStartY = e.clientY;
-    dragOriginX = posX; dragOriginY = posY;
+    swipeStartX = e.clientX;
+    swipeStartY = e.clientY;
+
+    if(scale > minScale){
+      isDragging = true;
+      isSwipe = false;
+      viewerImg.classList.add('is-dragging');
+      dragStartX = e.clientX; dragStartY = e.clientY;
+      dragOriginX = posX; dragOriginY = posY;
+    } else {
+      isDragging = false;
+      isSwipe = true;
+    }
   });
+
   window.addEventListener('mousemove', function(e){
-    if(!isDragging) return;
-    posX = dragOriginX + (e.clientX - dragStartX);
-    posY = dragOriginY + (e.clientY - dragStartY);
-    renderTransform();
+    if(isDragging && scale > minScale){
+      posX = dragOriginX + (e.clientX - dragStartX);
+      posY = dragOriginY + (e.clientY - dragStartY);
+      renderTransform();
+    }
   });
-  window.addEventListener('mouseup', function(){
+
+  window.addEventListener('mouseup', function(e){
+    if(isSwipe){
+      var deltaX = e.clientX - swipeStartX;
+      var deltaY = e.clientY - swipeStartY;
+
+      if(Math.abs(deltaX) > SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)){
+        if(deltaX < 0){ loadPoster(currentIndex + 1); }
+        else{ loadPoster(currentIndex - 1); }
+      }
+    }
     isDragging = false;
+    isSwipe = false;
     viewerImg.classList.remove('is-dragging');
   });
 
-  /* pan / drag (touch) */
+  /* pan (saat zoom) & swipe ganti poster (saat tidak zoom) — touch */
+  var swipeStartX = 0, swipeStartY = 0, isSwipe = false;
+  var SWIPE_THRESHOLD = 50;
+
   viewerImg.addEventListener('touchstart', function(e){
-    if(scale <= minScale || e.touches.length !== 1) return;
-    isDragging = true;
-    dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
-    dragOriginX = posX; dragOriginY = posY;
+    if(e.touches.length !== 1) return;
+    swipeStartX = e.touches[0].clientX;
+    swipeStartY = e.touches[0].clientY;
+
+    if(scale > minScale){
+      isDragging = true;
+      isSwipe = false;
+      dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+      dragOriginX = posX; dragOriginY = posY;
+    } else {
+      isDragging = false;
+      isSwipe = true;
+    }
   }, { passive:true });
+
   viewerImg.addEventListener('touchmove', function(e){
-    if(!isDragging || e.touches.length !== 1) return;
-    posX = dragOriginX + (e.touches[0].clientX - dragStartX);
-    posY = dragOriginY + (e.touches[0].clientY - dragStartY);
-    renderTransform();
+    if(e.touches.length !== 1) return;
+    if(isDragging && scale > minScale){
+      posX = dragOriginX + (e.touches[0].clientX - dragStartX);
+      posY = dragOriginY + (e.touches[0].clientY - dragStartY);
+      renderTransform();
+    }
   }, { passive:true });
-  viewerImg.addEventListener('touchend', function(){ isDragging = false; });
+
+  viewerImg.addEventListener('touchend', function(e){
+    if(isSwipe){
+      var touch = e.changedTouches[0];
+      var deltaX = touch.clientX - swipeStartX;
+      var deltaY = touch.clientY - swipeStartY;
+
+      if(Math.abs(deltaX) > SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)){
+        if(deltaX < 0){ loadPoster(currentIndex + 1); }   // swipe kiri -> poster berikutnya
+        else{ loadPoster(currentIndex - 1); }             // swipe kanan -> poster sebelumnya
+      }
+    }
+    isDragging = false;
+    isSwipe = false;
+  });
 
 })();
 </script>
